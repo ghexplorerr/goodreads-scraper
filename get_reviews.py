@@ -277,7 +277,15 @@ def main():
             driver = webdriver.Chrome(ChromeDriverManager().install())
         elif args.browser.lower() == 'firefox':
             geckodriver_autoinstaller.install()
-            driver = webdriver.Firefox()
+            # driver = webdriver.Firefox()
+            # Use Firefox in headless mode, e.g. in docker.
+            # See https://stackoverflow.com/a/47642457
+            from selenium.webdriver import FirefoxOptions
+            opts = FirefoxOptions()
+            opts.add_argument("--headless")
+            #driver = webdriver.Firefox()
+            driver = webdriver.Firefox(options=opts)
+
        # Get an option to work with Google Colab
         elif args.browser.lower() == "colab":
             from selenium.webdriver.chrome.options import Options
